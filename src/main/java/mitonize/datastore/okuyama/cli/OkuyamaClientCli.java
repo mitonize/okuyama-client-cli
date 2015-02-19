@@ -19,9 +19,13 @@ import mitonize.datastore.okuyama.OkuyamaClientFactoryImpl;
 
 public class OkuyamaClientCli {
 	public static void main(String[] args) throws IOException {
-		String[] masternodes = { "localhost:8888" };
+		String host = "localhost:8888";
 
-		OkuyamaClientCli cli = new OkuyamaClientCli(masternodes);
+		if (args.length > 1) {
+			host = args[0];
+		}
+
+		OkuyamaClientCli cli = new OkuyamaClientCli(host);
 		try {
 			cli.loop();
 		} finally {
@@ -35,11 +39,14 @@ public class OkuyamaClientCli {
 	Map<String, Command> commands;
 	OkuyamaClientFactory clientFactory;
     ConsoleReader console;
+	private String host;
 
-    public OkuyamaClientCli(String[] masternodes) throws IOException {
+    public OkuyamaClientCli(String host) throws IOException {
+    	setHost(host);
 		this.commands = new HashMap<String, Command>();
 
 		try {
+			String[] masternodes = new String[] { getHost() };
 			this.clientFactory = new OkuyamaClientFactoryImpl(masternodes, 1, false, false, null);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
@@ -47,7 +54,6 @@ public class OkuyamaClientCli {
 		FileHistory history = new FileHistory(new File(System.getProperty("user.home"), ".okuyama-cli_history"));
 		
 		console = new ConsoleReader();
-		console.setPrompt("prompt> ");
 		console.setHistory(history);
 		console.setHistoryEnabled(true);
 
@@ -82,6 +88,14 @@ public class OkuyamaClientCli {
 		this.clientFactory = clientFactory;
 	}
 
+	public String getHost() {
+		return this.host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}
+
 	void loop() {
 		boolean exitFlag = false;
 		while (!exitFlag) {
@@ -106,9 +120,13 @@ public class OkuyamaClientCli {
 			}
 		}
 		console.shutdown();
+		if (clientFactory != null) {
+			clientFactory.destroy();
+		}
 	}
 	
 	String[] nextCommand() throws IOException {
+		console.setPrompt(getHost() + "> ");
 		try {
 			String line = console.readLine();
 			if (line == null) {

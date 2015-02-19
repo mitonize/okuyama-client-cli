@@ -30,10 +30,13 @@ public class Command_Connect extends Command {
 
 		OkuyamaClientFactory clientFactory = cli.getClientFactory();
 		if (clientFactory != null) {
-			console.println("disconnected");
+			clientFactory.destroy();
+			console.println("disconnected fron " + cli.getHost());
 		}
-		clientFactory = new OkuyamaClientFactoryImpl(new String[]{tokens[1]}, 1, false, false, null);
+		String host = tokens[1];
+		clientFactory = new OkuyamaClientFactoryImpl(new String[]{host}, 1, false, false, null);
 		cli.setClientFactory(clientFactory);
+		cli.setHost(host);
 		try {
 			OkuyamaClient client = clientFactory.createClient();
 			String versionStr = client.getMasterNodeVersion();
