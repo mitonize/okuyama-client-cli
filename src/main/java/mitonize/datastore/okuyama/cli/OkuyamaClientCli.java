@@ -21,7 +21,7 @@ public class OkuyamaClientCli {
 	public static void main(String[] args) throws IOException {
 		String host = "localhost:8888";
 
-		if (args.length > 1) {
+		if (args.length >= 1) {
 			host = args[0];
 		}
 
