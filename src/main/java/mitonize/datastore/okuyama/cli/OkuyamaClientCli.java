@@ -60,6 +60,7 @@ public class OkuyamaClientCli {
 		addCommand(new Command_Connect(console, this));
 		addCommand(new Command_Get(console, this));
 		addCommand(new Command_Set(console, this));
+		addCommand(new Command_Remove(console, this));
 
 		List<String> commandList = new ArrayList<>();
 		for (Command c: commands.values()) {
