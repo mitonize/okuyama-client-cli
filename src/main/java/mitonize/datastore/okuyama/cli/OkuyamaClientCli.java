@@ -21,7 +21,7 @@ public class OkuyamaClientCli {
 	public static void main(String[] args) throws IOException {
 		String host = "localhost:8888";
 
-		if (args.length > 1) {
+		if (args.length >= 1) {
 			host = args[0];
 		}
 
@@ -60,6 +60,7 @@ public class OkuyamaClientCli {
 		addCommand(new Command_Connect(console, this));
 		addCommand(new Command_Get(console, this));
 		addCommand(new Command_Set(console, this));
+		addCommand(new Command_Remove(console, this));
 
 		List<String> commandList = new ArrayList<>();
 		for (Command c: commands.values()) {

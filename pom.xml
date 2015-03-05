@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>mitonize</groupId>
 	<artifactId>okuyama-client-cli</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 	<name>Okuyama Client CLI</name>
 	<description>Okuyama KVS client command line interface written in Java.</description>
 	<properties>
